@@ -10,26 +10,36 @@ const SearchExercises = ( {setExercises, setBodyPart, bodyPart} ) => {
 
   useEffect(() => {
     const fetchExercisesData = async () => {
-      const bodyPartsData = await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList', exerciseOptions)
-    
-      setBodyParts(['all', ...bodyPartsData])
+
+      try {
+        const bodyPartsData = await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList', exerciseOptions)
+      
+        setBodyParts(['all', ...bodyPartsData])
+      } catch (error) {
+        console.log('Error', error)
+      }
     }
 
     fetchExercisesData()
   }, [])
 
   const handleSearch = async() => {
+    
     if(search){
-      const exercisesData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises?limit=10000`, exerciseOptions)
-      
-      const searchedExercises = exercisesData.filter(
-        (exercise) => exercise.name.toLowerCase().includes(search) 
-        || exercise.target.toLowerCase().includes(search)
-        || exercise.equipment.toLowerCase().includes(search)
-        || exercise.bodyPart.toLowerCase().includes(search)
-      )
-      setSearch('')
-      setExercises(searchedExercises)
+      try {
+        const exercisesData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises?limit=1500`, exerciseOptions)
+        
+        const searchedExercises = exercisesData.filter(
+          (exercise) => exercise.name.toLowerCase().includes(search) 
+          || exercise.target.toLowerCase().includes(search)
+          || exercise.equipment.toLowerCase().includes(search)
+          || exercise.bodyPart.toLowerCase().includes(search)
+        )
+        setSearch('')
+        setExercises(searchedExercises)
+      } catch (error) {
+        console.log('Error', error)
+      }
     }
   }
 

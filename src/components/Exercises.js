@@ -24,13 +24,17 @@ const Exercises = ({exercises, setExercises, bodyPart}) => {
   useEffect(() => {
     const fetchExercisesData = async () => {
       let exercisesData = []
-      if(bodyPart === 'all'){
-        exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises?limit=10000', exerciseOptions)
-      } else {
-        exercisesData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}?limit=10000`, exerciseOptions)
+      try {
+        if(bodyPart === 'all'){
+          exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises?limit=1500', exerciseOptions)
+        } else {
+          exercisesData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}?limit=1500`, exerciseOptions)
+        }
+  
+        setExercises(exercisesData)
+      } catch (error) {
+          console.log('Error', error)
       }
-
-      setExercises(exercisesData)
     }
 
     fetchExercisesData()
