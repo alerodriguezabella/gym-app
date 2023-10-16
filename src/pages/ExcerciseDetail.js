@@ -18,9 +18,9 @@ const ExcerciseDetail = () => {
 
       try {
         const exerciseDetailData = await fetchData(`${exerciseDbUrl}/exercises/exercise/${id}`, exerciseOptions)
-        const exerciseVideosData = await fetchData(`${youtubeSearchUrl}/search?q=${exerciseDetailData.name}`, youtubeOptions)
         setExerciseDetail(exerciseDetailData)
-        setExerciseVideos(exerciseVideosData)
+        const exerciseVideosData = await fetchData(`${youtubeSearchUrl}/search?query=${exerciseDetailData.name}`, youtubeOptions)
+        setExerciseVideos(exerciseVideosData.contents)
       } catch (error) {
         console.log('Error', error)
       }
